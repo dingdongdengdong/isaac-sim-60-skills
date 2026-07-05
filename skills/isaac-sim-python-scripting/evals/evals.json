@@ -1,0 +1,13 @@
+{
+  "name": "isaac-sim-python-scripting",
+  "cases": [
+    {
+      "prompt": "Write a headless Isaac Sim script that opens a USD and saves a diagnostic JSON file.",
+      "expected_behavior": "Creates SimulationApp before Omniverse imports, uses headless mode, records stage and artifact paths, and closes the app."
+    },
+    {
+      "prompt": "My standalone script fails importing omni.usd.",
+      "expected_behavior": "Checks whether SimulationApp was created before runtime imports and routes startup failures to runtime/troubleshooting skills."
+    }
+  ]
+}

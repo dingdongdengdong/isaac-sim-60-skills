@@ -10,6 +10,9 @@ Custom Codex/Agent Skills for NVIDIA Isaac Sim 6.0 robotics simulation workflows
 - `isaac-sim-60-sensors-sdg` — cameras, RTX Lidar/Radar, multitick rendering, Replicator and dataset workflows.
 - `isaac-sim-60-troubleshooting` — log-driven triage for Docker, headless rendering, ROS 2, assets, sensors, and contact physics.
 - `isaac-sim-viewport-debugger` — active viewport framing, camera switching, screenshot capture, and before/after visual evidence reports.
+- `isaac-sim-python-scripting` — standalone and interactive Python scripting, SimulationApp lifecycle, extension enabling, and scene automation.
+- `isaac-sim-omnigraph-builder` — scripted Action Graph creation, ROS 2/sensor graph wiring, custom node triage, and graph execution debugging.
+- `isaac-sim-robot-setup-tuning` — robot drive gains, colliders, mass/inertia, closed-loop structures, grippers, and asset tuning evidence.
 
 ## Install into Codex
 

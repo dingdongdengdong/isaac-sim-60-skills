@@ -1,0 +1,13 @@
+{
+  "name": "isaac-sim-omnigraph-builder",
+  "cases": [
+    {
+      "prompt": "Build an Action Graph that publishes joint states to ROS 2.",
+      "expected_behavior": "Identifies required ROS 2 extensions, graph path, execution trigger, node attributes, topic/QoS settings, and verification commands."
+    },
+    {
+      "prompt": "My custom Python OmniGraph node never executes.",
+      "expected_behavior": "Checks graph type, execIn trigger, class/.ogn naming, extension loading, and simulation playback before proposing code changes."
+    }
+  ]
+}

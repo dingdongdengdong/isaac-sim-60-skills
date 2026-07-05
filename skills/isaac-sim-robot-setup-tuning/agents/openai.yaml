@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim Robot Setup Tuning"
+  short_description: "Tune robot joints and physics assets"
+  default_prompt: "Use $isaac-sim-robot-setup-tuning to tune robot drive gains, colliders, or closed-loop structures in Isaac Sim."

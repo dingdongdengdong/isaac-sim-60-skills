@@ -1,0 +1,13 @@
+{
+  "name": "isaac-sim-robot-setup-tuning",
+  "cases": [
+    {
+      "prompt": "My imported UR10 collapses when I press play.",
+      "expected_behavior": "Checks articulation root, zero/weak drive gains, mass/inertia, and runs a focused gain test before broad edits."
+    },
+    {
+      "prompt": "Tune this dexterous hand so the fingers do not jitter.",
+      "expected_behavior": "Inspects closed-loop/mimic behavior, collider overlap, mass/inertia, damping, and records before/after evidence."
+    }
+  ]
+}

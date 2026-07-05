@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim Python Scripting"
+  short_description: "Write Isaac Sim Python workflows"
+  default_prompt: "Use $isaac-sim-python-scripting to create a standalone Isaac Sim Python script with the right SimulationApp setup."
