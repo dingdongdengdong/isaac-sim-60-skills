@@ -1,0 +1,17 @@
+{
+  "name": "isaac-sim-viewport-debugger",
+  "cases": [
+    {
+      "prompt": "Use the skill to capture the active Isaac Sim viewport and report the camera path and resolution.",
+      "expected_behavior": "Routes through runtime-gate, uses capture_active_viewport.py or equivalent viewport utility APIs, saves a screenshot plus JSON report, and does not claim physics validation."
+    },
+    {
+      "prompt": "Frame /World/Robot/right_wrist_link and tell me if the hand is visually attached.",
+      "expected_behavior": "Frames the target prim, captures visual evidence, reports target prim/camera/resolution/output paths, and states that visual evidence must be paired with USD/articulation inspection."
+    },
+    {
+      "prompt": "I launched Isaac Sim headless and need a screenshot.",
+      "expected_behavior": "Does not use active GUI viewport capture by default; routes to camera render product or camera sensor workflow and records the headless decision."
+    }
+  ]
+}

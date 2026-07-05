@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim Viewport Debugger"
+  short_description: "Frame and capture Isaac Sim viewports"
+  default_prompt: "Use $isaac-sim-viewport-debugger to frame a robot prim in Isaac Sim and capture a diagnostic screenshot."

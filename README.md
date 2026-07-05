@@ -9,6 +9,7 @@ Custom Codex/Agent Skills for NVIDIA Isaac Sim 6.0 robotics simulation workflows
 - `isaac-sim-60-robot-assets` — SimReady USD loading, URDF/MJCF import, articulation mapping, AmazingHand notes.
 - `isaac-sim-60-sensors-sdg` — cameras, RTX Lidar/Radar, multitick rendering, Replicator and dataset workflows.
 - `isaac-sim-60-troubleshooting` — log-driven triage for Docker, headless rendering, ROS 2, assets, sensors, and contact physics.
+- `isaac-sim-viewport-debugger` — active viewport framing, camera switching, screenshot capture, and before/after visual evidence reports.
 
 ## Install into Codex
 

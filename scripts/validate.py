@@ -53,4 +53,6 @@ for skill_md in SKILLS:
 # Helper script checks.
 subprocess.run(["bash", "-n", str(ROOT / "skills/isaac-sim-60-runtime/scripts/check_isaacsim60_host.sh")], check=True)
 subprocess.run([sys.executable, "-m", "py_compile", str(ROOT / "skills/isaac-sim-60-troubleshooting/scripts/summarize_isaacsim60_logs.py")], check=True)
+for helper in sorted((ROOT / "skills/isaac-sim-viewport-debugger/scripts").glob("*.py")):
+    subprocess.run([sys.executable, "-m", "py_compile", str(helper)], check=True)
 print(f"validated {len(SKILLS)} skills")
