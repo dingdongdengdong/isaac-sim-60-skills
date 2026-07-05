@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim 6.0 Runtime"
+  short_description: "Run and validate Isaac Sim 6.0"
+  default_prompt: "Use $isaac-sim-60-runtime to check my host and start Isaac Sim 6.0 headless."

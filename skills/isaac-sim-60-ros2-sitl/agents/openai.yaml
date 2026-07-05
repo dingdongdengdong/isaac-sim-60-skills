@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim 6.0 ROS2 SITL"
+  short_description: "ROS 2 and LeRobot SITL bridge"
+  default_prompt: "Use $isaac-sim-60-ros2-sitl to debug my Isaac Sim ROS 2 teleop bridge."

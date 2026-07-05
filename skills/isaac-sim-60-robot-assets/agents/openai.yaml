@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim 6.0 Robot Assets"
+  short_description: "Import and bind robot assets"
+  default_prompt: "Use $isaac-sim-60-robot-assets to load and map my robot USD or URDF in Isaac Sim."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim 6.0 Sensors SDG"
+  short_description: "Sensors and synthetic data workflows"
+  default_prompt: "Use $isaac-sim-60-sensors-sdg to design an Isaac Sim camera/Lidar synthetic data workflow."

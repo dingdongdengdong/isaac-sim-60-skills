@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim 6.0 Troubleshooting"
+  short_description: "Diagnose Isaac Sim runtime issues"
+  default_prompt: "Use $isaac-sim-60-troubleshooting to triage my Isaac Sim startup, ROS, or physics issue."
