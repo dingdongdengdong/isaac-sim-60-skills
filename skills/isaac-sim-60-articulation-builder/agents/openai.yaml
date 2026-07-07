@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim Articulation Builder"
+  short_description: "Build controllable articulation scaffolds after SimReady"
+  default_prompt: "Use $isaac-sim-60-articulation-builder to turn a SimReady USD into a controllable Isaac Sim articulation scaffold."

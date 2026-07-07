@@ -1,37 +1,22 @@
 # OmniGraph Troubleshooting
 
 ## Node does not run
-
-Check:
-- graph type matches the desired execution model
-- execution pins are connected
-- simulation is playing when required
-- required extension is enabled
-- node path exists after stage load
-- upstream tick/event source is active
+Check extension enabled, node type available, graph execution trigger connected, simulation playing/stepped, and log errors.
 
 ## Attribute does not update
-
-Check:
-- exact attribute name and type
-- whether the value is being overwritten each tick
-- data pin connection direction
-- whether a stage reload recreated the graph
+Check attribute name, type, graph evaluation order, source-node output, and whether a stale UI value differs from runtime data.
 
 ## ROS 2 output missing
-
-Check:
-- ROS 2 bridge extension is enabled
-- `ROS_DOMAIN_ID` matches external nodes
-- topic name, namespace, QoS, and frame ID
-- simulation time node is connected where needed
-- topic has an active subscriber if publisher verification is required
+Check bridge extension, domain, topic/QoS, source-node migration, execution trigger, and external `ros2 topic` command.
 
 ## Sensor output missing
+Check sensor prim, render product, annotator/GenericModelOutput, tick/render policy, and at least one simulation/render step.
 
-Check:
-- sensor prim exists
-- render product exists for camera-like outputs
-- tick rate and frame timing are valid
-- graph executes after sensor initialization
-- output is inspected after at least one simulation/render step
+## Migration symptom
+If a 5.1 graph loaded into 6.0 shows disconnected or ignored prim path inputs, consult the ROS/sensor migration docs before adding replacement nodes.
+
+## Execution order checks
+If values update one frame late or never reach a publisher, inspect graph evaluation order and trigger placement. Report whether the data source is read before or after simulation, sensor, or ROS bridge updates.
+
+## Report fields
+For every graph failure, preserve graph path, node type names, extension names, changed attributes, connections, trigger source, simulation play/paused state, and the downstream artifact that failed to appear.

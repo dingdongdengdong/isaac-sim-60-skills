@@ -22,7 +22,6 @@ if viewport is None:
 ```
 
 ## Camera path and resolution
-
 `viewport.camera_path` and `viewport.resolution` are the most useful direct controls. Treat both as report fields.
 
 ```python
@@ -30,31 +29,18 @@ viewport.resolution = (1280, 720)
 camera_path = str(get_active_viewport_camera_path() or viewport.camera_path)
 ```
 
-When switching cameras, prefer an existing camera prim:
-
-```python
-viewport.camera_path = "/World/DebugCamera"
-```
-
-Do not create or persist a new camera in the user's USD unless explicitly requested.
+When switching cameras, prefer an existing camera prim and do not create/persist a new camera in the user's USD unless explicitly requested.
 
 ## Frame prims
-
 Frame target prims before capture:
 
 ```python
 frame_viewport_prims(viewport, prims=["/World/Robot/right_wrist_link"])
 ```
 
-Validate prim paths against the current stage when possible, but still include missing paths in the report so the user can see what was requested.
+Validate prim paths against the current stage when possible, but include missing paths in the report so the user can see what was requested.
 
 ## Wait for frames
-
-After changing camera, resolution, stage selection, or framed prims, wait several viewport frames before capture:
-
-```python
-for _ in range(5):
-    await next_viewport_frame_async(viewport)
-```
+After changing camera, resolution, stage selection, or framed prims, wait several viewport frames before capture.
 
 If the installed Kit version exposes `next_viewport_frame_async()` without a viewport argument, call it without arguments.

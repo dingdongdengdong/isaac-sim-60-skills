@@ -1,31 +1,50 @@
-# Isaac Sim 6.0 Troubleshooting Reference
+# Isaac Sim 6.0 Troubleshooting Index
 
-## Official docs checked
+## Official sources
 - Troubleshooting hub: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/overview/troubleshooting.html
-- Setup tips: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/installation/install_faq.html
-- Robot setup troubleshooting: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/robot_setup/troubleshooting.html
+- Known issues: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/overview/known_issues.html
+- Setup tips and logs/cache locations: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/installation/install_faq.html
+- Container installation: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/installation/install_container.html
+- ROS 2 troubleshooting: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/ros2_tutorials/troubleshooting.html
 - Replicator troubleshooting: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/replicator_tutorials/troubleshooting.html
-- RTX Lidar tutorial warnings: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/ros2_tutorials/tutorial_ros2_rtx_lidar.html
+- Robot setup troubleshooting: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/robot_setup/troubleshooting.html
+- Digital Twin troubleshooting: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/digital_twin/troubleshooting.html
+- Performance handbook: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/reference_material/sim_performance_optimization_handbook.html
+- 6.0 release notes: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/overview/release_notes.html
+- 5.1 release notes: https://docs.isaacsim.omniverse.nvidia.com/5.1.0/overview/release_notes.html
 
-## Common symptom map
-- Docker image missing or pull stalled: verify `docker image inspect nvcr.io/nvidia/isaac-sim:6.0.0`; re-run pull outside long composed workflows; record stalled layer.
-- Container starts but no GUI: prefer headless screenshot first; for headed mode check `DISPLAY`, `/tmp/.X11-unix`, and `xhost`.
-- Cannot connect to services: use `network_mode: host` for this workspace; check ports 8765 and 8766.
-- No ROS topics: verify `ROS_DOMAIN_ID`, RMW variables, ROS 2 bridge extension, and matching Humble/Jazzy environment.
-- Robot joints do not move: check joint limits, drive gains, mimic settings, and one-joint isolation.
-- Bad imported geometry: inspect source mesh transforms and USD transforms.
-- Replicator captures nothing: check capture-on-play, render products, writer attachment, output directory, and simulation stepping.
-- RTX Lidar crash after UI changes: pause simulation before docking/redocking sensor windows.
-- Object drops during grasp: tune collision proxies, spawn pose, close targets, drive force/damping, solver iterations, contact offsets, and friction; do not assume visuals equal collision.
-
-## Local known blocker
-`isaacsim_test/artifacts/isaacsim60_headless_status.json` previously recorded that the Isaac Sim 6.0 Docker image was not installed and pull stalled around one layer. Re-check the image before diagnosing scene code.
+## Symptom matrix
+- Cannot start, pull image, open GUI, or stream: `startup-runtime.md`.
+- Crash, hang, import error, extension error, suspicious log noise: `logs-and-crashes.md`.
+- Missing/stale ROS topics or Simulation Control services: `ros2-bridge.md`.
+- Blank screenshots, no files, stale images, livestream confusion: `rendering-capture.md`.
+- Robot collapses, explodes, detaches, cannot grasp, wrong joint motion: `robot-physics.md`.
+- Slow startup, poor FPS, shader warmup, cache state, noisy known issues: `performance-known-issues.md`.
+- Sensor/SDG output wrong after basic runtime works: hand off to `$isaac-sim-60-sensors-sdg`.
 
 ## Minimal evidence bundle
-```bash
-cd /home/dong/robot/superarm_ws
-bash ~/.codex/skills/isaac-sim-60-runtime/scripts/check_isaacsim60_host.sh
-python3 ~/.codex/skills/isaac-sim-60-troubleshooting/scripts/summarize_isaacsim60_logs.py \
-  isaacsim_test/artifacts/isaac-sim-60-headless-screenshot.log
-cat isaacsim_test/artifacts/isaacsim60_headless_status.json 2>/dev/null || true
-```
+Always preserve:
+- exact command and working directory
+- Isaac Sim version and install surface
+- runtime mode: GUI, headless, container, workstation, pip, cloud, livestream
+- expected artifact and observed artifact
+- log path and first actionable error
+- relevant env vars: `ROS_DOMAIN_ID`, `RMW_IMPLEMENTATION`, `ACCEPT_EULA`, GPU visibility
+- recent changes: image tag, extension name migration, asset path, graph, sensor, or ROS contract
+
+## Workspace evidence paths
+- `isaacsim_test/artifacts/isaac-sim-60-headless-screenshot.log`
+- `isaacsim_test/artifacts/isaacsim60_headless_status.json`
+- `isaacsim_test/artifacts/simready_prim_mapping.json`
+- `isaacsim_test/artifacts/hand_focus/`
+
+## Version note
+- 5.1 is unsupported for new fixes/features and warned that deprecated extensions would be removed in 6.0.
+- If a migrated project fails with missing modules/extensions, check `omni.isaac.*` to `isaacsim.*` migration before changing Docker, Python paths, or ROS settings.
+- Treat 6.0.0 docs as the pinned 6.0.0 guidance, while preserving local 6.0.0 image pins unless changed deliberately.
+
+## Ignore versus fix rule
+Do not treat every warning as actionable. First decide whether the warning explains the missing artifact. If not, record it as known/noisy and continue to the first error that blocks startup, rendering, ROS, asset load, sensor output, or dataset generation.
+
+## Handoff rule
+After evidence narrows the subsystem, stop broad troubleshooting and hand off to the focused skill. Include the command, log, artifact path, version/install surface, and the one symptom that must be verified after the fix.

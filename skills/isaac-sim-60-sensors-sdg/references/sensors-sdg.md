@@ -1,26 +1,38 @@
-# Isaac Sim 6.0 Sensors and SDG Reference
+# Isaac Sim 6.0 Sensors and SDG Index
 
-## Official docs checked
-- Release notes: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/overview/release_notes.html
-- Sensors overview: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/index.html
+## Official sources
+- 6.0 release notes: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/overview/release_notes.html
 - Camera sensors: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_camera.html
-- RTX Lidar ROS tutorial: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/ros2_tutorials/tutorial_ros2_rtx_lidar.html
-- RTX sensor migration: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/migration_guides/isaac_sim_6_0/sensors_rtx_to_experimental_rtx.html
+- RTX sensors: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_rtx.html
+- RTX Lidar sensor: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_rtx_lidar.html
+- RTX Radar sensor: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_rtx_radar.html
+- RTX Acoustic sensor: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_rtx_acoustic.html
 - RTX sensor annotators: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_rtx_annotators.html
+- RTX non-visual materials: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_rtx_materials.html
+- Physics-based sensors: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physics.html
+- PhysX SDK sensors: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/sensors/isaacsim_sensors_physx.html
+- RTX sensor migration: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/migration_guides/isaac_sim_6_0/sensors_rtx_to_experimental_rtx.html
+- Replicator overview: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/replicator_tutorials/index.html
+- Action and Event Data Generation: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/action_and_event_data_generation/index.html
+- MobilityGen: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/synthetic_data_generation/tutorial_replicator_mobility_gen.html
+- Teleoperation SDG: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/synthetic_data_generation/tutorial_replicator_teleop_sdg.html
 - Replicator troubleshooting: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/replicator_tutorials/troubleshooting.html
 
-## 6.0 sensor notes
-- Cameras are USD `Camera` prims rendered by the RTX renderer.
-- RTX Lidar/Radar APIs moved toward `isaacsim.sensors.experimental.rtx`; avoid stale `isaacsim.sensors.rtx` assumptions when writing 6.0 code.
-- RTX Lidar needs its own viewport to simulate properly.
-- Release notes highlight multitick rendering: cameras and RTX Lidars can be scheduled by simulation time.
-- In 6.0 GA, RTX Radar has a known tick-rate caveat: verify behavior empirically when exact Radar cadence matters.
+## Read-order matrix
+- RGB/depth/segmentation camera frames: `camera-workflows.md`, then `timing-and-migration.md`.
+- RTX Lidar/Radar/Acoustic, point clouds, GenericModelOutput, non-visual materials: `rtx-lidar-radar.md`, then `timing-and-migration.md`.
+- Contact, IMU, effort, joint state, raycast, PhysX generic/Lidar/lightbeam/proximity sensors: `rtx-lidar-radar.md` for routing, then official physics/PhysX sensor docs for exact API shape.
+- Replicator image/annotation dataset: `replicator-sdg.md`, then `troubleshooting.md`.
+- Actor/Object/Event SDG, behavior trees, MobilityGen, teleop dataset episodes: `action-event-teleop-sdg.md`, then `timing-and-migration.md`.
+- ROS sensor stream: `$isaac-sim-60-ros2-sitl` plus `$isaac-sim-omnigraph-builder` after this skill chooses the sensor source.
 
-## Capture triage
-- No data captured: check capture-on-play, render product attachment, writer initialization, output directory permissions, and whether simulation actually advanced.
-- Rendering artifacts: increase subframes where appropriate, wait for materials/assets to load, and verify lighting.
-- ROS sensor output missing: confirm ROS 2 bridge extension, domain ID, graph node migration, and topic names.
+## Scope boundaries
+- Viewport screenshots are human visual evidence, not sensor data. Use `$isaac-sim-viewport-debugger`.
+- ROS messages are transport/bridge behavior. Use `$isaac-sim-60-ros2-sitl` after the sensor source is known.
+- Asset-mounted sensors require valid robot prim paths. Use `$isaac-sim-60-robot-assets` if paths or attachments are uncertain.
+- Exact API signatures can change across 6.0.0; when coding against a new sensor family, inspect the installed docs or extension metadata.
 
 ## Workspace dataset context
-- LeRobot episode recording should preserve the 13D state/action metadata unless the user asks for a new dataset schema.
-- When adding cameras or sensors to the SimReady `echo_full` scene, store evidence under `isaacsim_test/artifacts/` and avoid committing generated datasets unless requested.
+- Preserve LeRobot 13D state/action order when sensor streams become teleoperation or imitation-learning episodes.
+- Save camera calibration and sensor frame metadata with episodes when replay fidelity matters.
+- Record timing source: simulation step, render frame, ROS clock, or recorder episode index.

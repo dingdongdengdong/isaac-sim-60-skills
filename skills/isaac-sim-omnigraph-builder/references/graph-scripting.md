@@ -7,29 +7,23 @@
 - Commonly used OmniGraph shortcuts: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/omnigraph/omnigraph_shortcuts.html
 
 ## Build pattern
-
-Use Python graph creation when the graph must be repeatable. The exact API varies across Kit versions, but the process is stable:
-
-1. Enable graph-dependent extensions.
-2. Create or reuse an Action Graph prim.
-3. Create nodes with stable names.
-4. Set attributes.
-5. Connect execution pins first, then data pins.
-6. Save a report of graph topology.
+1. Start or attach to Isaac Sim through `$isaac-sim-python-scripting`.
+2. Enable required extensions.
+3. Create or locate a stable graph path.
+4. Create nodes with explicit type names.
+5. Set attributes.
+6. Connect execution pins and data pins.
+7. Run the graph trigger while simulation is playing or stepped.
+8. Save a report with graph path, node paths, attributes, connections, extensions, and verification artifact.
 
 ## Graph report fields
-
-Record:
-- graph path
-- graph type
-- node type names
-- node prim paths
-- key attribute values
-- execution connections
-- data connections
-- required extensions
-- verification result
+- graph path and graph type
+- extension names enabled
+- nodes and type names
+- attribute values changed
+- connections made
+- execution trigger
+- downstream artifact checked
 
 ## Execution triggers
-
-For Action Graphs, confirm an execution source such as playback tick, physics step, stage event, or explicit trigger. For Push Graphs, confirm that automatic frame evaluation is intended.
+A graph with no trigger is not a runnable workflow. For simulation graphs, connect an appropriate tick/playback trigger. For one-shot diagnostics, document how the graph was evaluated.

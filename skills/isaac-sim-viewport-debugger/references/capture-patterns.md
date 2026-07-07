@@ -1,7 +1,6 @@
 # Capture Patterns
 
 ## Screenshot to file
-
 Use `capture_viewport_to_file(viewport, file_path=...)` for the normal evidence path. Await or wait on the returned helper before reading the file.
 
 ```python
@@ -12,12 +11,18 @@ if inspect.isawaitable(result):
 ```
 
 ## Buffer capture
-
 Use `capture_viewport_to_buffer` only when an agent needs to inspect pixels in memory or pipe data into a custom analyzer. For most diagnostics, file capture is easier to preserve and review.
 
 ## JSON report fields
+Write a JSON report next to the screenshot with runtime mode, camera path, resolution, target prims, screenshot path, and script name.
 
-Write a JSON report next to the screenshot:
+## Before/after evidence
+For visual regression or attachment debugging, save before image/report, after image/report, and a comparison report with file hashes, file sizes, and optional pixel difference.
+
+Do not claim physics correctness from visual comparison alone; pair images with USD schema, joint, collider, or articulation evidence.
+
+## Report schema
+Use a small JSON sidecar so screenshots remain auditable:
 
 ```json
 {
@@ -30,12 +35,5 @@ Write a JSON report next to the screenshot:
 }
 ```
 
-## Before/after evidence
-
-For visual regression or attachment debugging, save:
-
-- Before image and report.
-- After image and report.
-- Comparison report with file hashes, file sizes, and optional pixel difference.
-
-Do not claim "fixed" from visual comparison alone; pair the images with USD schema, joint, collider, or articulation evidence.
+## Failure evidence
+When capture fails, still write or report the requested camera path, target prims, output path, runtime mode, and exception. A missing viewport is useful evidence when deciding to switch to render-product capture.

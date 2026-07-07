@@ -3,30 +3,47 @@
 ## Official docs checked
 - URDF importer: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/importer_exporter/ext_isaacsim_asset_importer_urdf.html
 - MJCF importer: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/importer_exporter/ext_isaacsim_asset_importer_mjcf.html
-- Manipulator setup/import: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/robot_setup_tutorials/tutorial_import_assemble_manipulator.html
+- Importer/exporter tutorials: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/importer_exporter/importer_exporter_tutorials.html
+- Asset Structure: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/robot_setup/asset_structure.html
+- Robot assets: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/assets/usd_assets_robots.html
+- Robot setup: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/robot_setup/index.html
 - Robot setup troubleshooting: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/robot_setup/troubleshooting.html
 - Newton physics backend: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/physics/newton_physics.html
+- Surface Gripper extension: https://docs.isaacsim.omniverse.nvidia.com/6.0.0/robot_simulation/ext_isaacsim_robot_surface_gripper.html
+
+## Asset intake workflow
+1. Classify the source: SimReady/OpenUSD, imported URDF, imported MJCF, CAD-converted USD, third-party USD, or generated diagnostics copy.
+2. Record source path, target prim path, output layer, units, up axis, articulation root, link/joint counts, and whether payloads are loaded.
+3. For importers, save importer settings and generated USD path. Do not edit vendor/import source assets destructively.
+4. Confirm link visuals, colliders, joints, drives, limits, mimic joints, and actuator/control names before binding ROS or LeRobot topics.
+5. If the asset loads but physics fails, stop asset work and hand off to `$isaac-sim-robot-setup-tuning` with the collected prim paths.
 
 ## 6.0 robot notes
-- Release notes say URDF and MJCF importers can import multi-physics assets and include robot/base type selection options.
-- MJCF import is relevant for MuJoCo-format robots, but closed-loop/equality-constraint hands can still need custom decomposition.
 - Newton support is available as an experimental physics backend; default workspace SITL should not switch physics backend without explicit intent and new validation.
+- URDF and MJCF importers may author backend-specific schemas; record whether an asset is intended for PhysX, Newton, or both.
+- SimReady content and Asset Structure guidance matter for reusable assets: separate geometry, materials, collisions, metadata, and physics/tuning layers.
+- Robot Wizard is deprecated in current 6.0 docs; prefer Robot Inspector, Robot Poser, Asset Transformer, and explicit setup/tutorial workflows.
+
+## 5.1-to-6.0 migration notes
+- 5.1 warned deprecated extensions would be removed in 6.0; check old assets/scripts for `omni.isaac.*` extension names.
+- If a 5.1 project used Surface Gripper Python bindings, follow the 6.0 Surface Gripper migration before editing grasp logic.
+- If a 5.1 asset used older sensor, robot, or motion-generation extension names, migrate the extension/API name first, then retest import.
+
+## Non-articulated conversion result
+If inspection reports meshes and rigid bodies but `0` physics joints and `0` articulation roots, the converted USD is only a visual/rigid-body asset. Record it as `binding_pending` and read `articulation-binding-gap.md` before attempting controllers, ROS joint state, or LeRobot binding.
 
 ## Workspace source of truth
-- Local guide: `isaacsim_test/README.md`.
-- Sim loop plan: `integration_guide/09_isaacsim_sim_loop_plan.md`.
-- AmazingHand memory: `omx_wiki/amazinghand-isaacsim.md`.
-- Final SimReady USD: `isaacsim_test/outputs/simready/echo_full/pipeline/04_conform/repair-loop-02-fet005/fet005-grasp/echo_full_robot_arm_hand.usd`.
-- SimReady validation: `isaacsim_test/outputs/simready/echo_full/pipeline/06_validation_final/simready-profile.json`.
-- Mapping evidence: `isaacsim_test/artifacts/simready_prim_mapping.json`.
+- Primary SimReady asset: `isaacsim_test/outputs/simready/echo_full/pipeline/04_conform/repair-loop-02-fet005/fet005-grasp/echo_full_robot_arm_hand.usd`.
+- Mapping artifact: `isaacsim_test/artifacts/simready_prim_mapping.json`.
+- Do not silently replace the real asset with a hidden stand-in articulation. If binding is not complete, report `binding_pending`.
 
 ## AmazingHand policy
-- Do not use the original AmazingHand MJCF as the runtime physics articulation without new validation.
-- Stable current model: simplified two-link-per-finger tree articulation for physics, primitive collision proxies, and static MJCF visual shell.
-- Actuated hand joints are `finger1_motor1` through `finger4_motor2`.
-- If animated STL finger visuals are requested, plan a visual follower or tree-compatible decomposition; do not partition closed-loop visuals casually.
+- Stable default: static MJCF visual shell plus a simplified Isaac-oriented collision/physics tree.
+- Before changing hand physics, capture hand root prim, wrist attachment, finger links/joints, mimic relationships, collider approximation, drive gains, and one visual screenshot.
+- Coordinate with `$isaac-sim-60-ros2-sitl` before changing joint order or the 13D LeRobot feature contract.
 
 ## Robot setup triage
-- Meshes penetrate: inspect source transforms and imported USD transforms.
-- Joints do not move: check limits, nonzero gains, mimic ratios/directions, and isolate one joint at a time.
-- Wrong direction: compare source joint axes against USD joint axes and command sign conventions.
+- Visual import issue: stay here and inspect USD composition, payloads, prim paths, scales, and materials.
+- Articulation/control issue: collect joint/link paths and hand off to `$isaac-sim-robot-setup-tuning` or `$isaac-sim-omnigraph-builder`.
+- ROS topic issue: hand off to `$isaac-sim-60-ros2-sitl`.
+- Runtime, missing asset server, or cache issue: hand off to `$isaac-sim-60-runtime` or `$isaac-sim-60-troubleshooting`.

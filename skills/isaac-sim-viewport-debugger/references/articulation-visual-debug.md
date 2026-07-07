@@ -1,9 +1,7 @@
 # Articulation Visual Debug
 
 ## Useful capture sequence
-
 For robot assets, capture both full context and focused links:
-
 1. Full robot.
 2. Base or articulation root.
 3. Shoulder/elbow/wrist chain.
@@ -11,7 +9,6 @@ For robot assets, capture both full context and focused links:
 5. Any link that jumps to the world origin, separates, or has suspicious scale.
 
 ## Report these fields
-
 - Robot root prim path.
 - Target link or joint prim paths.
 - Camera path and resolution.
@@ -20,7 +17,6 @@ For robot assets, capture both full context and focused links:
 - Screenshot paths.
 
 ## Visual symptoms and next checks
-
 - Link visually detached: inspect joint parent/child body paths and local transforms.
 - Link at world origin: inspect missing parent relationship, broken xform ops, or reset transform.
 - Hand/wrist offset: inspect attachment transform and frame conventions.
