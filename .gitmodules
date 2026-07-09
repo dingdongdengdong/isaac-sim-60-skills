@@ -1,0 +1,3 @@
+[submodule "vendor/nvidia-skills"]
+	path = vendor/nvidia-skills
+	url = https://github.com/nvidia/skills

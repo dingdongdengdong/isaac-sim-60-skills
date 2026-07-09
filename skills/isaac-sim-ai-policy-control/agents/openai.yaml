@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim AI Policy Control"
+  short_description: "Run AI policies in Isaac Sim"
+  default_prompt: "Use $isaac-sim-ai-policy-control to wire an AI policy into an Isaac Sim robot control loop and verify actions, observations, timing, and safety."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim Motion Generation Control"
+  short_description: "Plan and execute robot motion in Isaac Sim"
+  default_prompt: "Use $isaac-sim-motion-generation-control to connect AI goals to MoveIt, cuMotion/cuRobo, IK, trajectory execution, and simulated robot evidence."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim Teleop Policy Data Loop"
+  short_description: "Record teleop data for robot policies"
+  default_prompt: "Use $isaac-sim-teleop-policy-data-loop to record, replay, and validate Isaac Sim teleoperation data for imitation learning or policy evaluation."

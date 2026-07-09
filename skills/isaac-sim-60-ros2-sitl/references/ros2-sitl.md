@@ -51,6 +51,19 @@ ros2 topic pub /leader/joint_commands std_msgs/msg/Float64MultiArray \
 ros2 topic echo /follower/joint_states --once
 ```
 
+## AI policy or planner loop
+
+When an AI policy, imitation controller, or planner commands through ROS 2:
+
+1. Keep the bridge contract stable first: domain, topics, message type, joint order, and publish rate.
+2. Verify `/follower/joint_states` before starting the AI node.
+3. Publish one zero or home command on `/leader/joint_commands` before sending model output.
+4. Bound and log every model/planner action before publishing it.
+5. Compare published command length/order with the 13D contract in this file.
+6. If using MoveIt 2 or a ROS trajectory controller, verify `/joint_states`, `/tf`, and controller state before blaming planner or policy quality.
+
+Hand off learned-policy observation/action mapping to `$isaac-sim-ai-policy-control`. Hand off AI-generated goals, MoveIt 2, cuMotion, IK, or trajectory execution to `$isaac-sim-motion-generation-control`.
+
 ## Do not silently change
 - Topic names.
 - Message type for the 13D command path.

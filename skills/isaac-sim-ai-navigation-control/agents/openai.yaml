@@ -1,0 +1,4 @@
+interface:
+  display_name: "Isaac Sim AI Navigation Control"
+  short_description: "Control simulated robots with AI navigation"
+  default_prompt: "Use $isaac-sim-ai-navigation-control to connect AI goals, ROS 2 Nav2, maps, localization, and simulated navigation evidence in Isaac Sim."
